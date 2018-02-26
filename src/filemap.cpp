@@ -247,7 +247,7 @@ namespace node_filemap
 
     if (!(node::Buffer::HasInstance(args[0]) && args[1]->IsNumber() && args[2]->IsNumber()))
     {
-      isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Not enough arguments to FileMapping.writeBuffer")));
+      isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong type arguments to FileMapping.writeBuffer")));
       return;
     }
 
@@ -268,13 +268,13 @@ namespace node_filemap
 
     if (args.Length() < 2)
     {
-      isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Not enough arguments to FileMapping.writeBuffer")));
+      isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Not enough arguments to FileMapping.readInto")));
       return;
     }
 
     if (!(args[0]->IsNumber() && args[1]->IsNumber() && node::Buffer::HasInstance(args[2])))
     {
-      isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Not enough arguments to FileMapping.writeBuffer")));
+      isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong type arguments to FileMapping.readInto")));
       return;
     }
 
