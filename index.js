@@ -1,6 +1,7 @@
-const addon = require('./build/Release/addon');
+const { FileMapping, Mutex } = require('./build/Release/addon');
 
-map = new addon.FileMapping();
+map = new FileMapping();
+lock = new Mutex();
 
 async function waitFor(ms) {
   return new Promise(function (resolve, reject) {
@@ -14,6 +15,7 @@ function main() {
   return new Promise(async function(resolve, reject) {
     buffer = Buffer.alloc(4) // 4 byte buffer to write to a 4 byte shared storage
     map.openMapping('howard_mem_map', 4)
+    lock.open('howard_mem_map_lock');
 
     for (var i = 0; i < 60; ++i)
     {
@@ -22,12 +24,16 @@ function main() {
 
       // Write the new value
       buffer.writeInt32LE(i);
+
+      lock.wait();
       map.writeBuffer(buffer, 0, 0, 4);
+      lock.release();
 
       console.log('Wrote ' + i);
     }
 
     map.closeMapping()
+    lock.close();
     resolve();
   })
 }
