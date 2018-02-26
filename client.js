@@ -1,23 +1,45 @@
-const addon = require('./build/Release/addon');
+const { FileMapping, Mutex } = require('./build/Release/addon');
 
-buffer = Buffer.alloc(4)
-map = new addon.FileMapping();
-lock = new addon.Mutex();
+map = new FileMapping();
+lock = new Mutex();
 
-map.createMapping(null, 'howard_mem_map', 4);
-lock.create('howard_mem_map_lock');
-
-while(1)
-{
-  lock.waitMultiple([lock], true, addon.INFINITE);
-  map.readInto(0, 4, buffer);
-  lock.release();
-
-  var i = buffer.readInt32LE(0);
-  console.log ('Read: ' + i);
-
-  if (i == 59) break;
+async function waitFor(ms) {
+  return new Promise(function (resolve, reject) {
+    setTimeout(function() {
+      return resolve();
+    }, ms);
+  });
 }
 
-map.closeMapping();
-lock.close();
+function main() {
+  return new Promise(async function(resolve, reject) {
+    buffer = Buffer.alloc(4) // 4 byte buffer to write to a 4 byte shared storage
+    map.openMapping('howard_mem_map', 4)
+    lock.open('howard_mem_map_lock');
+
+    for (var i = 0; i < 60; ++i)
+    {
+      // Wait 1 second between changes
+      await waitFor(10);
+
+      // Write the new value
+      buffer.writeInt32LE(i);
+
+      lock.wait();
+      map.writeBuffer(buffer, 0, 0, 4);
+      lock.release();
+
+      console.log('Wrote ' + i);
+    }
+
+    map.closeMapping()
+    lock.close();
+    resolve();
+  })
+}
+
+
+mainPromise = main()
+mainPromise.then(function() {
+  console.log('End!')
+});
