@@ -12,7 +12,6 @@
 
 #include <node.h>
 #include <node_object_wrap.h>
-#include <node_api.h>
 #include <windows.h>
 #include <node_buffer.h>
 
@@ -33,13 +32,13 @@ namespace node_filemap
     void close_mapping();
 
     static void New(const v8::FunctionCallbackInfo<v8::Value>& args);
-    
+
     static void CreateMapping(const v8::FunctionCallbackInfo<v8::Value> &args);
     static void OpenMapping(const v8::FunctionCallbackInfo<v8::Value> &args);
     static void CloseMapping(const v8::FunctionCallbackInfo<v8::Value> &args);
     static void WriteBuffer(const v8::FunctionCallbackInfo<v8::Value> &args);
     static void ReadInto(const v8::FunctionCallbackInfo<v8::Value> &args);
-    
+
     static v8::Persistent<v8::Function> constructor;
 
     static void Init(v8::Local<v8::Object> exports);

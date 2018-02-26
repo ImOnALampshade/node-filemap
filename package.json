@@ -1,6 +1,6 @@
 {
   "name": "node-filemap",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Windows file mapping API for NodeJS",
   "main": "index.js",
   "scripts": {
