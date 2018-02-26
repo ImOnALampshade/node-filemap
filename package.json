@@ -1,0 +1,30 @@
+{
+  "name": "node-filemap",
+  "version": "1.0.0",
+  "description": "Windows file mapping API for NodeJS",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ImOnALampshade/node-filemap.git"
+  },
+  "keywords": [
+    "shared",
+    "memory",
+    "file",
+    "mapping",
+    "windows",
+    "interprocess",
+    "communication",
+    "ipc"
+  ],
+  "author": "Howard Hughes",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ImOnALampshade/node-filemap/issues"
+  },
+  "homepage": "https://github.com/ImOnALampshade/node-filemap#readme"
+}
